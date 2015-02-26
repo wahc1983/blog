@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ApplicationManifest xmlns="http://schemas.google.com/ApplicationManifest/2009">
+ 
+  <Name>incwo gadget</Name>
+ 
+  <Description>
+    incwo gadget manages contacts and tasks
+  </Description>
+  
+ <!--  EXTRACTOR -->
+
+  <Extension id="INCWOBodyExtractor" type="contextExtractor">
+    <Name>INCWO Body</Name>
+    <Url>google.com:EmailBodyExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailBody"/>
+    <Container name="mail"/>
+  </Extension>
+
+   <Extension id="INCWOSenderExtractor" type="contextExtractor">
+    <Name>INCWO Sender</Name>
+    <Url>google.com:SenderEmailExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailsender"/>
+    <Container name="mail"/>
+  </Extension>
+
+   <Extension id="INCWOReceiverToExtractor" type="contextExtractor">
+    <Name>INCWO To</Name>
+    <Url> google.com:RecipientToEmailExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailto"/>
+    <Container name="mail"/>
+  </Extension>
+
+   <Extension id="INCWOReceiverCcExtractor" type="contextExtractor">
+    <Name>INCWO CC</Name>
+    <Url> google.com:RecipientCCEmailExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailcc"/>
+    <Container name="mail"/>
+  </Extension>
+
+  <Extension id="INCWOIdExtractor" type="contextExtractor">
+    <Name>INCWO id</Name>
+    <Url>google.com:MessageIDExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailsender"/>
+    <Container name="mail"/>
+  </Extension>
+
+  <Extension id="INCWODateExtractor" type="contextExtractor">
+    <Name>INCWO date</Name>
+    <Url>google.com:EmailTimeExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailsender"/>
+    <Container name="mail"/>
+  </Extension>
+
+  <Extension id="INCWOSubjectExtractor" type="contextExtractor">
+    <Name>INCWO subject</Name>
+    <Url>google.com:EmailAddressExtractor</Url>
+    <Triggers ref="INCWOGadget"/>
+    <Scope ref="emailsender"/>
+    <Container name="mail"/>
+  </Extension>
+
+<!--  GADGET --> 
+
+  <Extension id="INCWOGadget" type="gadget">
+    <Name>INCWO Gmail contextual gadget</Name>
+    <Url>http://wahc.bugs3.com/gadget/context-gadget.xml</Url>
+    <Container name="mail"/>
+  </Extension>
+
+<!--  SCOPE -->
+
+  <Scope id="emailBody">
+    <Url>tag:google.com,2010:auth/contextual/extractor/BODY</Url>
+    <Reason>
+      This application searches into the message body of each email for contacts in the Incwo and show their information.   
+    </Reason>
+  </Scope>
+
+   <Scope id="emailsender">
+    <Url>tag:google.com,2010:auth/contextual/extractor/FROM_ADDRESS</Url>
+    <Reason>
+      This application takes the sender email   
+    </Reason>
+  </Scope>
+
+   <Scope id="emailto">
+    <Url>tag:google.com,2010:auth/contextual/extractor/TO_ADDRESS</Url>
+    <Reason>
+      This application takes the receiver email   
+    </Reason>
+  </Scope>
+
+   <Scope id="emailcc">
+    <Url>tag:google.com,2010:auth/contextual/extractor/CC_EMAIL</Url>
+    <Reason>
+      This application takes the receiver email   
+    </Reason>
+  </Scope>
+
+   <Scope id="emailid">
+    <Url>tag:google.com,2010:auth/contextual/extractor/MESSAGE_ID</Url>
+    <Reason>
+      This application takes the message id
+    </Reason>
+  </Scope>
+
+   <Scope id="emaildatasent">
+    <Url>tag:google.com,2010:auth/contextual/extractor/DATE_SENT</Url>
+    <Reason>
+      This application takes the email date sent
+    </Reason>
+  </Scope>
+
+   <Scope id="emailsubjet">
+    <Url>tag:google.com,2010:auth/contextual/extractor/SUBJECT</Url>
+    <Reason>
+      This application takes the email subjet   
+    </Reason>
+  </Scope>
+
+</ApplicationManifest>

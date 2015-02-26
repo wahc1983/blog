@@ -1,0 +1,58 @@
+{ 
+  "name": "incwo gadget",
+  "version": "0.0.0.1",
+  "manifest_version": 2,
+  "ApplicationManifest": {
+    "-xmlns": "http://schemas.google.com/ApplicationManifest/2009",
+    "Name": "INCWO",
+    "Description": "
+     Using the contact email address to find a contact and display his information (phone numbers, tasks, etc) on Incwo.
+  ",
+    "Extension": [
+      {
+        "-id": "INCWOBodyExtractor",
+        "-type": "contextExtractor",
+        "Name": "INCWO Body",
+        "Url": "google.com:EmailBodyExtractor",
+        "Triggers": { "-ref": "INCWOGadget" },
+        "Scope": { "-ref": "emailBody" },
+        "Container": { "-name": "mail" }
+      },
+      {
+        "-id": "INCWOSenderExtractor",
+        "-type": "contextExtractor",
+        "Name": "INCWO Sender",
+        "Url": "google.com:SenderEmailExtractor",
+        "Triggers": { "-ref": "INCWOGadget" },
+        "Scope": { "-ref": "emailsender" },
+        "Container": { "-name": "mail" }
+      },
+      {
+        "-id": "INCWOGadget",
+        "-type": "gadget",
+        "Name": "INCWO Gmail contextual gadget",
+        "Url": "http://wach.bugs3.com/gadget/context-gadget.xml",
+        "Container": { "-name": "mail" }
+      }
+    ],
+    "Scope": [
+      {
+        "-id": "emailBody",
+        "Url": "tag:google.com,2010:auth/contextual/extractor/BODY",
+        "Reason": "
+      This application searches into the message body of each email for contacts in the Incwo and show their information.   
+    "
+      },
+      {
+        "-id": "emailsender",
+        "Url": "tag:google.com,2010:auth/contextual/extractor/FROM_ADDRESS",
+        "Reason": "
+      This application takes the sender email   
+    "
+      }
+    ],
+    "icons": { "16": "logo.png",
+           	   "48": "logo.png",
+              "128": "logo.png" }
+  }
+}

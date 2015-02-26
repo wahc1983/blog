@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="incwo" description="contacts founds:" height="40" author="incwo" author_email="incwo.com" thumbnail=" ">
+    <Link rel="icon" href="http://wahc.bugs3.com/gadget/logo.png"/>  
+    <Require feature="opensocial-0.9"/>
+    <Require feature="osapi"/>
+    <Require feature="dynamic-height"/>
+    <Require feature="locked-domain"/>
+    <Require feature="google.contentmatch">
+      <Param name="extractors">
+        google.com:EmailBodyExtractor, google.com:SenderEmailExtractor
+      </Param>
+    </Require>
+    <OAuth>
+      <Service name="google">
+        <Access url="https://www.google.com/accounts/OAuthGetAccessToken" method="GET" /> 
+        <Request url="https://www.google.com/accounts/OAuthGetRequestToken?scope=https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email" method="GET" /> 
+        <Authorization url="https://www.google.com/accounts/OAuthAuthorizeToken?oauth_callback=http://oauth.gmodules.com/gadgets/oauthcallback" /> 
+      </Service>
+    </OAuth>    
+  </ModulePrefs>
+
+  <Content type="html" view="card">
+    <![CDATA[
+      <script src="https://gadget-doc-examples.googlecode.com/svn/trunk/opensocial-gadgets/popup.js"></script>
+      <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+
+      <script type="text/javascript">
+
+      /*************************************************************************************************/
+
+      function fetchData() {
+
+            console.log('incwo gadget');
+
+            //Extractor Vars
+
+            var from_address;
+            var to_address;
+            var cc_address;
+            var email_body;
+            
+            
+            matches = google.contentmatch.getContentMatches();
+
+            console.log("Init Gadget");
+                  for (var match in matches) {
+                        for (var key in matches[match]) {
+
+                            if (key == "recipient_to_email") {
+                                to_address = matches[match][key];
+                            }
+                            if (key == "recipient_cc_email") {
+                                cc_address = matches[match][key];
+                            }
+                            if (key == "sender_email") {
+                                from_address = matches[match][key];
+                            }
+                            if (key == "email_body") {
+                                email_body = matches[match][key];
+                            }
+                     
+                        }
+                  }
+
+            console.log(from_address);
+            console.log(to_address);
+            console.log(cc_address);
+
+            var params = {};
+            url = "http://web1.tunnlr.com:13189/gadget/contextual_gadget_contacts";
+            console.log(url);
+            params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+            params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.OAUTH;
+            params[gadgets.io.RequestParameters.OAUTH_SERVICE_NAME] = "google";
+            params[gadgets.io.RequestParameters.OAUTH_USE_TOKEN] = "always";
+            params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+
+            gadgets.io.makeRequest(url, function (response) { 
+              if (response.oauthApprovalUrl) {
+
+                var popup = new gadgets.oauth.Popup({ destination: response.oauthApprovalUrl,
+                                                  windowOptions: null,
+                                                  onOpen: function() { showOneSection('waiting'); },
+                                                  onClose: function() { fetchData(); }
+                                                });
+                var personalize = document.getElementById('personalize');
+                personalize.onclick = popup.createOpenerOnClick();
+                var approvaldone = document.getElementById('approvaldone');
+                approvaldone.onclick = popup.createApprovedOnClick();
+                showOneSection('approval');
+
+              } else if (response.data) {
+                showOneSection('main');
+                showResults(response.data);
+              } else {
+                var main = document.getElementById('main');
+                var err = document.createTextNode('OAuth error: ' +
+                response.oauthError + ': ' + response.oauthErrorText);
+                main.appendChild(err);
+                showOneSection('main');
+              }
+            }, params);
+          }
+
+        /*************************************************************************************************/
+
+        function showResults(result) {
+          showOneSection('main');
+          console.log(result);
+          jQuery('#main').html(result);
+        }
+
+        /*************************************************************************************************/
+
+        function showOneSection(toshow) {
+          var sections = [ 'main', 'approval', 'waiting' ];
+          for (var i=0; i < sections.length; ++i) {
+            var s = sections[i];
+            var el = document.getElementById(s);
+            if (s === toshow) {
+              el.style.display = "block";
+            } else {
+              el.style.display = "none";
+            }
+          }
+        }
+        /*************************************************************************************************/
+        
+        gadgets.util.registerOnLoadHandler(fetchData);
+
+        /*************************************************************************************************/
+      </script>
+
+      <div id="main" class="list-group"></div>
+
+      <div id="approval" style="display: none">
+            <img src="http://gadget-doc-examples.googlecode.com/svn/trunk/images/new.gif">
+            <a href="#" id="personalize">Allow this gadget</a>
+      </div>
+
+      <div id="waiting" style="display: none">
+            Please click
+            <a href="#" id="approvaldone">I've approved access</a>
+            once you've approved access to your data.
+      </div>
+    ]]>
+  </Content>
+</Module>

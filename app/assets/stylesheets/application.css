@@ -1,0 +1,234 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require jquery.lightbox-0.5
+ *= require_tree .
+ */
+body {
+  background-color: grey;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+#footer {
+ box-shadow: 0px 0px 50px black;
+ background:#333333;
+ width:750px;
+ margin:auto;
+ color: white;
+ padding: 0px;
+}
+#frame1 {
+ box-shadow: 0px 0px 25px black;
+ background:#333333;
+}
+#frame2 {
+ width:300px;
+ box-shadow: 0px 0px 25px black;
+ background:#333333;
+ margin: right;
+}
+#cajacontenido {
+  width:700px;
+  background:white;
+  box-shadow: 0px 0px 10px black;
+  margin:auto;
+  padding:5px;
+  font-size: 70%;
+}
+#cajacontenido2 {
+  width:650px;
+  background:white;
+  box-shadow: 0px 0px 10px black;
+  padding:5px;
+  font-size: 70%;
+}
+#container {
+  width:750px;
+  background-image:url('1501321267.jpg');
+  box-shadow: 0px 0px 50px black;
+  font-size: 120%;
+  color: white;
+  margin:auto;
+}
+#contenedor {
+  width:700px;
+  background:white;
+  box-shadow: 0px 0px 50px black;
+  margin:auto;
+  font-size: 120%;
+  color: black;
+  padding:25px;  
+}
+#contenedor2 {
+  width:650px;
+  background:white;
+  box-shadow: 0px 0px 50px black;
+  margin:auto;
+  padding:25px;
+  font-size: 120%;
+}
+#contenedor3 {
+  width:650px;
+  background:white;
+  box-shadow: 0px 0px 10px black;
+  margin:auto;
+  padding:25px;
+  font-size: 120%;
+}
+#contenedor_new {
+  width:300px;
+  background:white;
+  box-shadow: 0px 0px 50px black;
+  margin:auto;
+  font-size: 120%;
+  color: black;
+  padding:25px;  
+}
+#user_nav{
+ width:750px;
+ background:#333333;
+ color: white;
+ box-shadow: 0px 0px 50px black;
+ margin:auto;
+ text-align: right;
+ font-size: 120%;
+}
+
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a {
+  color: white;
+  &:visited {
+    color: #666;
+  }
+  &:hover {
+    color: #fff;
+    background-color: #000;
+  }
+}
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}
+.authentications {
+  margin-bottom: 30px;
+}
+
+.authentication {
+  width: 500px;
+  background-color: #EEE;
+  border: solid 1px #999;
+  padding: 5px 10px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  position: relative;
+  margin-right: 10px;
+}
+
+.authentication .remove {
+  text-decoration: none;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  color: #333;
+  padding: 2px 4px;
+  font-size: 10px;
+}
+
+.authentication .remove:hover {
+  color: #CCC;
+  background-color: #777;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+.authentication img {
+  float: left;
+  margin-right: 10px;
+}
+
+.authentication .provider {
+  font-weight: bold;
+}
+
+.authentication .uid {
+  color: #666;
+  font-size: 11px;
+}
+
+.auth_provider img {
+  display: block;
+}
+
+.auth_provider {
+  float: right;
+  text-decoration: none;
+  margin-right: 20px;
+  text-align: right;
+  margin-bottom: 10px;
+}
+.clear
+{
+clear:both;
+}
+.auth_provider_home {
+  float: left;
+  text-decoration: none;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}

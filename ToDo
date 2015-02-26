@@ -1,0 +1,14 @@
+1. Necesitamos Centralizar aun mas los requests ( Done! ).
+2. Un lugar para los helpers ( Done! ).
+3. Necesitamos Mejorar las URLs ( Done! ).
+4. Necesitamos mejorar la referencia a los paths.
+5. Necesitamos Organizar lo Relacionado con la database.
+5.1. Necesitamos remover el nombre MySQL de todas partes en el Adaptador del MySQL ( Done! ).
+5.2. Hacer un wrapper sencillo para las SQL strings.
+SELECT
+INSERT
+UPDATE
+DELETE
+6. Necesitamos Mejor lo de los layouts y el manejo de las vistas.
+7. Depronto explorar la posibilidad de almacenar las constantes bajo una clase "Application" que ampare todo lo relacionado con la aplicacion ( variables, settings, etc. ).
+8. Manejo de Mensajes de Error

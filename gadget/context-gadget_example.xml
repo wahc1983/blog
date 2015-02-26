@@ -1,0 +1,79 @@
+<Module>
+<ModulePrefs title="Insightly Gmail Gadget" description="" height="40" author="Insightly" author_email="support@insight.ly" author_location="Australia">
+<Link rel="icon" href="https://d9qolodtvydv6.cloudfront.net/Content/images/favicon3.png"/>
+<Require feature="opensocial-0.9"/>
+<Require feature="osapi"/>
+<!--  Declare feature dependencies.  -->
+<!--
+ This one is not specific to Gmail contextual gadgets. 
+-->
+<Require feature="dynamic-height"/>
+<!--
+ Disbale information sharing with other Gadgets on page 
+-->
+<Require feature="locked-domain"/>
+<!--
+ The next feature, Caja, is optional, and is supported for
+     use only within test domains. Uncomment the tag only for
+     non-production gadgets. 
+-->
+<!--  <Require feature="caja"/>  -->
+<!--
+ The next feature, google.contentmatch, is required for all
+     Gmail contextual gadgets.
+     <Param> - specify one or more comma-separated extractor IDs in
+     a param named "extractors". This line is overridden by the extractor ID
+     in the manifest, but is still expected to be present. 
+-->
+<Require feature="google.contentmatch">
+<Param name="extractors">google.com:SenderEmailExtractor</Param>
+</Require>
+</ModulePrefs>
+<!--
+ Define the content type and display location. The settings "html" and "card" are required for all Gmail contextual gadgets. 
+-->
+<Content type="html" view="card">
+<![CDATA[
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+ <script src="https://gadget.insight.ly/GmailGadget/gadget3.js"></script>
+ <script src="https://gadget.insight.ly/GmailGadget/Gadget-main.js?v=5"></script>
+ 
+ <script>
+ var envURL = 'gadget.insight.ly';
+ 
+ // insert a stylesheet into the page
+ var insertCSS = function(filename)
+ {
+ var $link = $('<link/>');
+ $link.attr('href', filename);
+ $link.attr('rel', 'stylesheet');
+ $('head').append($link);
+ };
+ 
+ insertCSS('https://' + envURL + '/GmailGadget/gadget3.css');
+ 
+ </script>
+ 
+ <button style="display:none" class="insightlyButton" id="addEmail" type="button">Save Email</button>
+ <button style="display:none" class="disabled" disabled id="savedEmail" type="button">Email Saved</button>
+ <button style="display:none" class="insightlyButton" id="showContactButton">View Contact</button>
+ <button style="display:none" class="insightlyButton" id="saveContactButton">Save Contact</button>
+ 
+ <span id="AddButtons" style="display:none">
+ <span class="insightlyPillButton insightlyPillButton-l" style="float:left;margin:0;" >Add</span>
+ <select id="AddNewDropDrown">
+ <option value="" >New...</option>
+ <option value="TAS" >Task</option>
+ <option value="OPP" >Opportunity</option>
+ <option value="PRO">Project</option>
+ <option value="EVE">Event</option>
+ </select>
+ </span>
+ 
+ 
+ <a href="#" style="display:none;margin-left:8px" id="showEmailLinks">Email links</a>
+ <div id="infomessage" class="infomessage"></div>
+ <div id="output"></div>
+]]>
+</Content>
+</Module>

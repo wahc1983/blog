@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="incwo" description="contacts founds:" height="40" author="incwo" author_email="incwo.com" thumbnail=" ">
+    <Link rel="icon" href="http://wahc.bugs3.com/gadget/logo.png"/>  
+    <Require feature="opensocial-0.9"/>
+    <Require feature="osapi"/>
+    <Require feature="dynamic-height"/>
+    <Require feature="locked-domain"/>
+    <Require feature="google.contentmatch">   
+      <Param name="extractors">
+        google.com:EmailBodyExtractor, google.com:SenderEmailExtractor
+      </Param>
+    </Require>
+  </ModulePrefs>
+
+  <Content type="html" view="card">
+    <![CDATA[
+      <script src="https://gadget-doc-examples.googlecode.com/svn/trunk/opensocial-gadgets/popup.js"></script>
+      <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+
+      <script type="text/javascript">
+
+          /*************************************************************************************************/
+
+          function fetchData() {
+
+            console.log('incwo gadget');
+
+            //Extractor Vars
+
+            var from_address;
+            var to_address;
+            var cc_address;
+            var email_body;
+            
+            
+            matches = google.contentmatch.getContentMatches();
+
+            console.log("Init Gadget");
+                  for (var match in matches) {
+                        for (var key in matches[match]) {
+
+                            if (key == "recipient_to_email") {
+                                to_address = matches[match][key];
+                            }
+                            if (key == "recipient_cc_email") {
+                                cc_address = matches[match][key];
+                            }
+                            if (key == "sender_email") {
+                                from_address = matches[match][key];
+                            }
+                            if (key == "email_body") {
+                                email_body = matches[match][key];
+                            }
+                     
+                        }
+                  }
+
+            console.log(from_address);
+            console.log(to_address);
+            console.log(cc_address);
+
+            var params = {};
+            url = "http://web1.tunnlr.com:13202/gadget/contextual_gadget_contacts";
+            console.log(url);
+            params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.TEXT;
+            params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+            params[gadgets.io.RequestParameters.POST_DATA] = gadgets.io.encodeValues({ "test" : "1\"23" });
+
+            gadgets.io.makeRequest(url, handleLoadResponse, params);
+          };
+
+        /*************************************************************************************************/
+
+        function handleLoadResponse(obj) {
+          var data = obj;
+          console.log('data' + data.text);
+          jQuery('#main').html(data.text);
+          gadgets.window.adjustHeight(); 
+        };
+
+        /*************************************************************************************************/
+        
+        gadgets.util.registerOnLoadHandler(fetchData);
+
+        /*************************************************************************************************/
+      </script>
+
+      <div id="main" class="list-group"></div>
+
+    ]]>
+  </Content>
+</Module>

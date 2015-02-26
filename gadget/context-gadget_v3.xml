@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="incwo" description="contacts founds:" height="40" author="incwo" author_email="incwo.com" thumbnail=" ">
+    <Link rel="icon" href="http://wahc.bugs3.com/gadget/logo.png"/>  
+    <Require feature="opensocial-0.9"/>
+    <Require feature="osapi"/>
+    <Require feature="dynamic-height"/>
+    <Require feature="oauthpopup"/>
+    <Require feature="google.contentmatch">
+      <Param name="extractors">
+        google.com:EmailBodyExtractor, google.com:SenderEmailExtractor
+      </Param>
+    </Require>
+    <Require feature="locked-domain"/> 
+     <OAuth2>
+       <Service name="facebook_service" scope="read_stream,publish_stream">
+       </Service>
+    </OAuth2>
+  </ModulePrefs>
+ 
+  <Content type="html" view="card">
+    <![CDATA[
+  <!-- shindig oauth popup handling code -->
+      <script src="https://gadget-doc-examples.googlecode.com/svn/trunk/opensocial-gadgets/popup.js"></script>
+
+      <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+
+      <script type="text/javascript">
+
+      console.log('incwo gadget');
+
+      //Extractor Vars
+
+          var from_address;
+          var to_address;
+          var cc_address;
+          var email_body;
+          
+          
+          matches = google.contentmatch.getContentMatches();
+
+
+          
+              console.log("Init Gadget");
+              for (var match in matches) {
+                    for (var key in matches[match]) {
+
+                        if (key == "recipient_to_email") {
+                            to_address = matches[match][key];
+                        }
+                        if (key == "recipient_cc_email") {
+                            cc_address = matches[match][key];
+                        }
+                        if (key == "sender_email") {
+                            from_address = matches[match][key];
+                        }
+                        if (key == "email_body") {
+                            email_body = matches[match][key];
+                        }
+                 
+                    }
+              }
+
+        console.log(from_address);
+        console.log(to_address);
+        console.log(cc_address);
+
+        /*var logonResource = 'http://web1.tunnlr.com:13189/gadget/contextual_gadget_contacts' + '?from_address=' + from_address;
+        console.log('enviando: ' + logonResource)*/
+        /*osapi.http.get({'href': logonResource, 'format': 'json','authz': 'signed'}).execute(handleLoadResponse);*/
+
+
+        var params = {};
+        url = "http://web1.tunnlr.com:13189/gadget/contextual_gadget_contacts";
+        params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+        params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.OAUTH2;
+        params[gadgets.io.RequestParameters.OAUTH_SERVICE_NAME] = "google";
+        params[gadgets.io.RequestParameters.OAUTH_USE_TOKEN] = "always";
+        params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+
+        /*var url = 'http://web1.tunnlr.com:13189/oauth2/authorize?kind=google&service=signup';
+        gadgets.io.makeRequest(url, handleLoadResponse, params);
+
+        function handleLoadResponse(obj) {
+          var data = obj;
+          console.log('data' + data.text);
+          jQuery('#contenedor').html(data.text);
+          gadgets.window.adjustHeight(); 
+        };*/
+ /*---------------------------------------------------------*/       
+      function getElement(x) {
+        return document.getElementById(x);
+      }
+
+      function showOneSection(toshow) {
+        var sections = [ 'main', 'approval', 'waiting', 'error' ];
+        for (var i=0; i < sections.length; ++i) {
+          var s = sections[i];
+          var el = getElement(s);
+          if (s === toshow) {
+            el.style.display = "block";
+          } else {
+            el.style.display = "none";
+          }
+        }
+      }
+
+      function fetchData() {
+        url = "http://web1.tunnlr.com:13189/gadget/contextual_gadget_contacts";
+        var params = {};
+        params[gadgets.io.RequestParameters.CONTENT_TYPE] =
+          gadgets.io.ContentType.TEXT;
+        params[gadgets.io.RequestParameters.AUTHORIZATION] =
+          gadgets.io.AuthorizationType.OAUTH2;
+        params[gadgets.io.RequestParameters.METHOD] =
+          gadgets.io.MethodType.GET;
+        params[gadgets.io.RequestParameters.OAUTH_SERVICE_NAME] = "googleAPI";
+        params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = "0";
+
+        gadgets.io.makeRequest(url, function (response) {
+          if (response.oauthApprovalUrl) {
+            var onOpen = function() {
+              showOneSection('waiting');
+            };
+            var onClose = function() {
+              fetchData();
+            };
+            var popup = new gadgets.oauth.Popup(response.oauthApprovalUrl,
+                null, onOpen, onClose);
+            getElement('personalize').onclick = popup.createOpenerOnClick();
+            getElement('approvaldone').onclick = popup.createApprovedOnClick();
+            showOneSection('approval');
+          } else if (response.data) {
+            getElement('main').appendChild(document.createTextNode(response.data));
+            showOneSection('main');
+          } else {
+             getElement('error_code').appendChild(document.createTextNode(response.oauthError));
+             getElement('error_uri').appendChild(document.createTextNode(response.oauthErrorUri));
+             getElement('error_description').appendChild(document.createTextNode(response.oauthErrorText));
+             getElement('error_explanation').appendChild(document.createTextNode(response.oauthErrorExplanation));
+             getElement('error_trace').appendChild(document.createTextNode(response.oauthErrorTrace));
+            showOneSection('error');
+          }
+        }, params);
+      }
+
+      gadgets.util.registerOnLoadHandler(fetchData);
+
+/*---------------------------------------------------------------------------------------------*/
+      </script>
+
+
+
+    <style>
+    #main {
+        margin: 0px;
+        padding: 0px;
+        font-size: small;
+    }
+    </style>
+
+    <div id="main" style="display: none">
+    </div>
+
+    <div id="approval" style="display: none">
+      <a href="#" id="personalize">Personalize this gadget</a>
+      <ol>
+        <b><u>In order to use this Demo Gadget you must</u></b> 
+        <li>Have or create a Google account and know your userid and password</li>
+        <li>Register a new application at <a href="https://code.google.com/apis/console">https://code.google.com/apis/console</a></li>
+        <li>Make sure your app's "Redirect URIs" applies to your shindig environment (e.g. http://localhost:8080/gadgets/oauth2callback)</li>
+        <li>Update the Google client "Client ID" and "Client Secret" in the OAuth2 persistence (default is <code>config/oauth2.json</code>)</li>
+        <li>Restart the server</li>
+        <li>Click the link above to initiate the authorization process</li>
+      </ol>    
+     
+    </div>
+
+    <div id="waiting" style="display: none">
+      Please click
+      <a href="#" id="approvaldone">I've approved access</a>
+      once you've approved access to your data.
+    </div>
+
+    <div id="error" style="display: none;background-color:yellow;font-size:xx-small;" title="An error occured processing your request">
+       <div id="error_code"><u>code:</u></div>
+       <div id="error_uri"><u>uri:</u></div>
+       <div id="error_description"><u>description:</u></div>
+       <div id="error_explanation"><u>explanation:</u></div>
+       <div id="error_trace"><u>trace:</u></div>
+    </div>
+
+    ]]>
+  </Content>
+</Module>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="incwo" description="contacts founds:" height="40" author="incwo" author_email="incwo.com" thumbnail=" ">
+    <Link rel="icon" href="http://wahc.bugs3.com/gadget/logo.png"/>  
+    <Require feature="opensocial-0.9"/>
+    <Require feature="osapi"/>
+    <Require feature="dynamic-height"/>
+    <Require feature="locked-domain"/>
+    <Require feature="google.contentmatch">
+      <Param name="extractors">
+        google.com:EmailBodyExtractor, google.com:SenderEmailExtractor
+      </Param>
+    </Require>
+  </ModulePrefs>
+ 
+  <Content type="html">
+    <![CDATA[
+<!-- ALm6fM0VCo6DWLkbEITHFlSm3m4AuK2e8_nIDiQwGdn6-8Shcz9gU82Pl1827fvJa3F9i-Jm6z0Ch2bYwvQFIxHiU2gN1L0ojYo1_XeTGIIpjpZtqz7m2IiM75zA8p3Ew-R4g5E1GbaWHohP4idK8XLNJFkQaNZtOyFNAZC2Kr6Q4nlsN9kWVxY= -->     <script>
+        // Sends a signed makeRequest to a specified remote server for testing purposes
+        function sendSignedRequest() {
+          var params = {};
+          params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.SIGNED;
+          params["OAUTH_SERVICE_NAME"] = "HMAC";  //This is the critical part which forces the use of HMAC
+          params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+          params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+          params[gadgets.io.RequestParameters.POST_DATA] = gadgets.io.encodeValues({ "test" : "1\"23" });
+        
+          var url = document.getElementById('url').value;
+          gadgets.io.makeRequest(url, showResponse, params);
+        };
+        
+        // Displays the response data
+        function showResponse(response) {
+          document.getElementById('response').innerHTML = response.text;
+        };
+        
+        // Loads the VIEWER ID and saves a token to appData
+        function init() {
+          var someToken = {'hash' : {'key' : 'value', 'key2' : 2}, 'integer' : 1241};
+          var json = gadgets.json.stringify(someToken);
+
+          var req = opensocial.newDataRequest();
+          req.add(req.newUpdatePersonAppDataRequest("VIEWER", 'token', json));
+          req.add(req.newFetchPersonRequest(opensocial.IdSpec.PersonId.OWNER), "me");
+            console.log('will');
+            console.log(req);          
+          req.send(function(data) {
+            document.getElementById('os_id').innerHTML = data.get("me").getData().getId();
+            console.log('will');
+            console.log(data);
+          });
+        }
+      
+        gadgets.util.registerOnLoadHandler(init);
+      </script>
+      <p>Your ID is: <span id='os_id'></span></p>
+      <p>To send a request to your server, in order to verify signed makeRequest, enter a URL and click 'Send'.</p>
+      <input type="text" name="url" id="url" /> <a href='javascript:void(0);' onclick='sendSignedRequest();'>Send</a>
+      <p>Server response text:</p>
+      <p id='response'></p>
+    ]]> 
+  </Content>
+</Module>

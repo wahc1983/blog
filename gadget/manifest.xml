@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ApplicationManifest xmlns="http://schemas.google.com/ApplicationManifest/2009">
+ 
+  <Name>ADX Answers</Name>
+ 
+  <Description>
+    Answers to Add-in Express questions inside your e-mail.    
+  </Description>
+ 
+  <Extension id="ADXExtractor" type="contextExtractor">
+    <Name>ADX Stuff</Name>
+    <Url>google.com:EmailBodyExtractor</Url>
+    <Triggers ref="ADXGadget"/>
+    <Scope ref="emailBody"/>
+    <Container name="mail"/>
+  </Extension>
+ 
+  <Extension id="ADXGadget" type="gadget">
+    <Name>Add-in Express Gmail contextual gadget</Name>
+    <Url></Url>
+    <Container name="mail"/>
+  </Extension>
+ 
+  <Scope id="emailBody">
+    <Url>tag:google.com,2010:auth/contextual/extractor/BODY</Url>
+    <Reason>
+      This application searches the message body of each email for text related to Add-in Express products.
+    </Reason>
+  </Scope>
+ 
+</ApplicationManifest>
