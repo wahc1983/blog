@@ -30,7 +30,7 @@ class SecurityHelper{
 
 class SignatureMethod extends OAuthSignatureMethod_RSA_SHA1 {
     protected function fetch_public_cert(&$request) {
-        $filename = 'keys/' . $_REQUEST['xoauth_signature_publickey'];
+        $filename = 'gadget/keys/' . $_REQUEST['xoauth_signature_publickey'];
         if (!file_exists($filename)) {
             throw new Exception('Certificate not found');
         }

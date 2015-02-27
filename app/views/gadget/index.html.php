@@ -2,6 +2,8 @@
   echo "<PRE>";
   print_r($_REQUEST);
   echo "</PRE>";
-  echo $_REQUEST['xoauth_signature_publickey'];
+  echo "<PRE>";
+  print_r($payload);
+  echo "</PRE>"; 
 ?>
 <div>will</div>
